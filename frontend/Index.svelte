@@ -201,7 +201,19 @@ $: selected_max_label = labels[selected_max];
       font-size: var(--text-sm);
       color: var(--body-text-color);
       background: var(--input-background-fill);
-	}
+        }
+
+    .tab-like-container input[type="text"] {
+      border: none;
+      border-radius: 0;
+      padding: var(--size-1) var(--size-2);
+      height: 100%;
+      min-width: var(--size-14);
+      font-size: var(--text-md);
+      font-weight: bold;
+      color: var(--body-text-color);
+      background: var(--input-background-fill);
+    }
 
 	input[type="number"]:focus {
 		box-shadow: none;
@@ -210,8 +222,10 @@ $: selected_max_label = labels[selected_max];
 
     .range-slider {
       position: relative;
-      width: 100%;
-      height: var(--size-4);      
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      height: var(--size-4);
     }
   
     .range-slider input[type="range"] {
@@ -231,12 +245,12 @@ $: selected_max_label = labels[selected_max];
       appearance: none;
       height: var(--size-4);
       width: var(--size-4);
-      background-color: white;
+      background-color: var(--body-text-color);
       border-radius: 50%;
       margin-top: 0;
       box-shadow:
-			  0 0 0 1px rgba(247, 246, 246, 0.739),
-			  1px 1px 4px rgba(0, 0, 0, 0.1);
+                          0 0 0 1px rgba(247, 246, 246, 0.739),
+                          1px 1px 4px rgba(0, 0, 0, 0.1);
       pointer-events: auto;
       cursor: pointer;
     }
@@ -244,7 +258,7 @@ $: selected_max_label = labels[selected_max];
     .range-slider input[type="range"]::-moz-range-thumb {
       height: var(--size-4);
       width: var(--size-4);
-      background-color: white;
+      background-color: var(--body-text-color);
       border-radius: 50%;
       border: none;
       box-shadow:
