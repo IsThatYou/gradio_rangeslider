@@ -111,26 +111,6 @@ $: selected_max_label = labels[selected_max];
 		<div class="head">
 			<BlockTitle {show_label} {info}>{label}</BlockTitle>
 			<div class="tab-like-container">
-			  <input
-          aria-label={`min input for ${label}`}
-          data-testid="min-input"
-          type="text"
-          readonly
-          value={selected_min_label}
-          disabled={!interactive}
-          on:pointerup={handle_release}
-          on:blur={handle_release}
-			  />
-        <input
-          aria-label={`max input for ${label}`}
-          data-testid="max-input"
-          type="text"
-          readonly
-          value={selected_max_label}
-          disabled={!interactive}
-          on:pointerup={handle_release}
-          on:blur={handle_release}
-      />
         <button
           class="reset-button"
           on:click={reset_value}
