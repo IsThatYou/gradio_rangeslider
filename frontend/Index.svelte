@@ -32,8 +32,10 @@
 export let value_is_output = false;
 export let labels: string[] = [];
 
-$: selected_min_label = labels[selected_min];
-$: selected_max_label = labels[selected_max];
+$: selected_min_label = labels[selected_min] ?? selected_min;
+$: selected_max_label = labels[selected_max] ?? selected_max;
+$: minTooltipStyle = `left: ${( (selected_min - minimum) / (maximum - minimum)) * 100}%`;
+$: maxTooltipStyle = `left: ${( (selected_max - minimum) / (maximum - minimum)) * 100}%`;
 
     function handle_change(selected_min, selected_max): void {
 	    value = [selected_min, selected_max];
@@ -127,6 +129,8 @@ $: selected_max_label = labels[selected_max];
       <div class="range-slider">
         <div class="range-bg"></div>
         <div class="range-line" style={rangeLine} class:disabled={!interactive} bind:this={range_input}></div>
+        <div class="tooltip" style={minTooltipStyle}>{selected_min_label}</div>
+        <div class="tooltip" style={maxTooltipStyle}>{selected_max_label}</div>
         <input type="range" disabled={!interactive} min={minimum} max={maximum} {step} bind:value={selected_min} on:input={handle_min_change} on:pointerup={handle_release} />
         <input type="range" disabled={!interactive} min={minimum} max={maximum} {step} bind:value={selected_max} on:input={handle_max_change} on:pointerup={handle_release} />
       </div>
@@ -137,6 +141,10 @@ $: selected_max_label = labels[selected_max];
 </Block>
 
  <style>
+
+ :global(:root) {
+	--slider-color: #2563eb;          /* Tailwind “blue‑600” – pick any blue you like */
+}
     .wrap {
       display: flex;
       flex-direction: column;
@@ -202,7 +210,7 @@ $: selected_max_label = labels[selected_max];
 
     .range-slider {
       position: relative;
-      width: 90%;
+      width: 80%;
       margin-left: auto;
       margin-right: auto;
       height: var(--size-4);
@@ -247,6 +255,10 @@ $: selected_max_label = labels[selected_max];
       pointer-events: auto;
       cursor: pointer;
     }
+    .range-slider input[type="range"]::-webkit-slider-thumb,
+    .range-slider input[type="range"]::-moz-range-thumb {
+      background-color: var(--slider-color);
+    }
 
     .range-slider input[type="range"]::-moz-range-track {
       height: var(--size-2);
@@ -283,7 +295,33 @@ $: selected_max_label = labels[selected_max];
       top: 50%;
       transform: translateY(-50%);
     }
+.tooltip {
+	white-space: nowrap;                   /* keep it on one line (from previous fix) */
+	background: var(--slider-color);       /* match slider colour */
+	color: #fff;                           /* white text for contrast */
+	padding: 6px 8px;
+	border-radius: 9999px;                 /* fully rounded bubble */
+	font-weight: 500;
+	font-size: var(--text-sm);
+	box-shadow: 0 2px 6px rgba(0,0,0,.15);
+	position: absolute;
+	top: -2.25rem;                         /* a little higher to fit the arrow */
+	transform: translateX(-50%);
+	pointer-events: none;
+}
 
+/* arrow / tail */
+.tooltip::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	bottom: -4px;                          /* sits just under the bubble */
+	transform: translateX(-50%);
+	width: 0;
+	height: 0;
+	border: 6px solid transparent;         /* creates a triangle */
+	border-top-color: var(--slider-color); /* point back to the track */
+}
     .disabled {
 		  background-color: var(--body-text-color-subdued);
 	  }
